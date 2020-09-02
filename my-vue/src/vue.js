@@ -83,6 +83,7 @@ class Compile {
     nodes.forEach((node) => {
       if (node.nodeType === 1) {
         //元素节点
+        this.compileElement(node);
         // 递归
         node.childNodes && this.compile(node);
       } else if (node.nodeType === 3 && this.isInter(node)) {
@@ -100,5 +101,11 @@ class Compile {
   // 编译文本
   compileText(node) {
     node.textContent = this.$vm[RegExp.$1];
+  }
+  //  编译元素 主要处理元素上的事件 及指令
+  compileElement(node) {
+    // 获取属性并遍历之
+    const nodeAttr = node.attributes;
+    Array.from(nodeAttr).forEach((attr) => {});
   }
 }
