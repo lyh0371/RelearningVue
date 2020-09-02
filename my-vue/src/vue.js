@@ -4,12 +4,15 @@ function defineReative(obj, key, val) {
   observe(val);
   Object.defineProperty(obj, key, {
     get() {
-      console.log("get", key, val);
+      return val;
     },
     set(oldval, newval) {
+      if (newval != val) {
+        val = newval;
+      }
       // 如何新值也是对象,还需要对新值做响应式处理
       observe(newval);
-      console.log("set", key, newval);
+      // console.log("set", key, newval);
     },
   });
 }
@@ -59,6 +62,7 @@ class Vue {
 
     observe(this.$data);
     proxy(this, "$data");
+    new Compile("#app", this);
   }
 }
 
@@ -66,5 +70,35 @@ class Vue {
 
 class Compile {
   // 数组元素
-  constructor(el, vm) {}
+  constructor(el, vm) {
+    this.$el = document.querySelector(el);
+    this.$vm = vm;
+
+    if (this.$el) {
+      this.compile(this.$el);
+    }
+  }
+  compile(el) {
+    const nodes = el.childNodes;
+    nodes.forEach((node) => {
+      if (node.nodeType === 1) {
+        //元素节点
+        // 递归
+        node.childNodes && this.compile(node);
+      } else if (node.nodeType === 3 && this.isInter(node)) {
+        // 文本节点
+        // console.log(RegExp.$1);
+        this.compileText(node);
+      }
+    });
+  }
+  // 判断是不是动态文本 主要是判断是不是有{{}}
+
+  isInter(node) {
+    return /\{\{(.*)\}\}/.test(node.textContent);
+  }
+  // 编译文本
+  compileText(node) {
+    node.textContent = this.$vm[RegExp.$1];
+  }
 }

@@ -7,17 +7,20 @@
   </head>
   <body>
     <script src="./src/vue.js"></script>
-    <div id="app">{{time}}</div>
+    <div id="app">
+      <h2>vue</h2>
+      <p>{{time}}</p>
+    </div>
     <script>
       const app = new Vue({
         el: "#app",
         data: {
-          time: 0,
+          time: 1,
         },
       });
 
       //   setInterval(() => {
-      app.time++;
+      // app.time++;
       //   }, 1000);
     </script>
   </body>

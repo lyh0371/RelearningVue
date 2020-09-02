@@ -4,7 +4,6 @@ class Vue {
     new observe(this.data);
   }
 }
-
 // 处理响应式
 class observe {
   constructor(data) {
