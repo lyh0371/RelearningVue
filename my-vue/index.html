@@ -9,7 +9,7 @@
     <script src="./src/vue.js"></script>
     <div id="app">
       <h2>vue</h2>
-      <p>{{time}}</p>
+      <p v-text="time"></p>
     </div>
     <script>
       const app = new Vue({
@@ -19,9 +19,10 @@
         },
       });
 
-      //   setInterval(() => {
-      // app.time++;
-      //   }, 1000);
+      setTimeout(() => {
+        app.time = 2;
+        // console.log(app.time);
+      }, 1000);
     </script>
   </body>
 </html>
